@@ -91,7 +91,6 @@ namespace _7.BishopPathFinder
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
-            int diagonalCounter = 1;
 
             int counter = 0;
 
@@ -110,7 +109,6 @@ namespace _7.BishopPathFinder
                     col++;
                 }
                 counter += 3;
-                diagonalCounter++;
             }
 
             for (int i = 0; i < cols; i++)
