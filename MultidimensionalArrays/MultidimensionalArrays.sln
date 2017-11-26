@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.MaximalSum", "2.MaximalSu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3.SequenceInMatrix", "3.SequenceInMatrix\3.SequenceInMatrix.csproj", "{42EF9E3B-3575-4A16-B20A-8E0600C5CC6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "6.LargestAreaInMatrix", "6.LargestAreaInMatrix\6.LargestAreaInMatrix.csproj", "{5515B7A3-E344-4A97-B881-D53C88B55C43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7.BishopPathFinder", "7.BishopPathFinder\7.BishopPathFinder.csproj", "{D543E378-1ED1-468F-91D2-32485EC23930}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{42EF9E3B-3575-4A16-B20A-8E0600C5CC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42EF9E3B-3575-4A16-B20A-8E0600C5CC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42EF9E3B-3575-4A16-B20A-8E0600C5CC6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5515B7A3-E344-4A97-B881-D53C88B55C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5515B7A3-E344-4A97-B881-D53C88B55C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5515B7A3-E344-4A97-B881-D53C88B55C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5515B7A3-E344-4A97-B881-D53C88B55C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D543E378-1ED1-468F-91D2-32485EC23930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D543E378-1ED1-468F-91D2-32485EC23930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D543E378-1ED1-468F-91D2-32485EC23930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D543E378-1ED1-468F-91D2-32485EC23930}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
