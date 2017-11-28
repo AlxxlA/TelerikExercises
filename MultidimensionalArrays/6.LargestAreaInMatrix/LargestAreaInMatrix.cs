@@ -1,123 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace _6.LargestAreaInMatrix
+class State
 {
-    class LargestAreaInMatrix
+    public State(int row, int col, int value)
     {
-        static void Main()
-        {
-            string[] dimensions = Console.ReadLine().Split();
-
-            int rows = int.Parse(dimensions[0]);
-            int cols = int.Parse(dimensions[1]);
-
-            int[,] matrix = new int[rows, cols];
-
-            FillMatrix(matrix);
-
-            int count = DFS(matrix, matrix[0, 0]);
-
-            Console.WriteLine(count);
-
-            PrintMatrix(matrix);
-
-            string s = "asdsad";
-            
-
-            
-        }
-
-        private static int DFS(int[,] matrix, int previousElement, int row = 0, int col = 0, int count = 0, HashSet<Position> visited = null)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            if (row < 0 || row >= rows || col < 0 || col >= cols)
-            {
-                return count;
-            }
-            int currentElement = matrix[row, col];
-            if (currentElement != previousElement)
-            {
-                return count;
-            }
-
-            Position currentPosition = new Position(row, col);
-            if (visited == null)
-            {
-                visited = new HashSet<Position>();
-            }
-            if (visited.Contains(currentPosition))
-            {
-                return count;
-            }
-            //visited.Add(currentPosition);
-
-            count++;
-
-            for (int i = row; i < rows; i++)
-            {
-                for (int j = col; j < cols; j++)
-                {
-                    currentElement = matrix[i, j];
-                    visited.Add(new Position(i,j));
-                    DFS(matrix, currentElement, i - 1, j, count, visited);
-                    DFS(matrix, currentElement, i + 1, j, count, visited);
-                    DFS(matrix, currentElement, i, j - 1, count, visited);
-                    DFS(matrix, currentElement, i, j + 1, count, visited);
-                }
-            }
-            //DFS(matrix, currentElement, row - 1, col, count, visited);
-            //DFS(matrix, currentElement, row + 1, col, count, visited);
-            //DFS(matrix, currentElement, row, col - 1, count, visited);
-            //DFS(matrix, currentElement, row, col + 1, count, visited);
-
-
-
-
-            return count;
-
-        }
-
-        private static void FillMatrix(int[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            for (int i = 0; i < rows; i++)
-            {
-                string[] nums = Console.ReadLine().Split();
-                for (int j = 0; j < cols; j++)
-                {
-                    matrix[i, j] = int.Parse(nums[j]);
-                }
-            }
-        }
-
-        private static void PrintMatrix(int[,] matrix)
-        {
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                string row = string.Empty;
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    row += matrix[i, j] + " ";
-                }
-                Console.WriteLine(row.Trim());
-            }
-        }
+        this.Row = row;
+        this.Col = col;
+        this.Value = value;
     }
 
-    struct Position
-    {
+    public int Row { get; set; }
+    public int Col { get; set; }
+    public int Value { get; set; }
+}
+class Program
+{
+    static int rows;
+    static int cols;
+    static bool[,] used;
+    static int greatestArea;
+    static int currentArea;
 
-        public Position(int row, int col)
+    static int[][] matrix;
+    static void Main(string[] args)
+    {
+        var token = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        rows = token[0];
+        cols = token[1];
+
+        var matrix = new int[rows][];
+        used = new bool[rows, cols];
+        for (int i = 0; i < rows; i++)
         {
-            this.Row = row;
-            this.Col = col;
+            matrix[i] = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
         }
 
-        public int Row { get; set; }
-        public int Col { get; set; }
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                if (!used[row, col])
+                {
+                    currentArea = 0;
+                    int value = matrix[row][col];
+
+                    Stack<State> stack = new Stack<State>();
+
+                    stack.Push(new State(row, col, value));
+
+                    while (stack.Count > 0)
+                    {
+                        var state = stack.Pop();
+
+                        if (state.Row < 0 || state.Row >= rows || state.Col < 0 || state.Col >= cols)
+                        {
+                            continue;
+                        }
+                        if (matrix[state.Row][state.Col] != state.Value)
+                        {
+                            continue;
+                        }
+                        if (used[state.Row, state.Col])
+                        {
+                            continue;
+                        }
+
+                        used[state.Row, state.Col] = true;
+                        currentArea++;
+                        greatestArea = Math.Max(greatestArea, currentArea);
+
+                        stack.Push(new State(state.Row + 1, state.Col, state.Value));
+                        stack.Push(new State(state.Row - 1, state.Col, state.Value));
+                        stack.Push(new State(state.Row, state.Col - 1, state.Value));
+                        stack.Push(new State(state.Row, state.Col + 1, state.Value));
+                    }
+                }
+            }
+
+        }
+
+        Console.WriteLine(greatestArea);
     }
 }
