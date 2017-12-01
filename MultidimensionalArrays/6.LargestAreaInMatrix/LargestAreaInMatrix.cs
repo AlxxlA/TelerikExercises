@@ -2,19 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class State
-{
-    public State(int row, int col, int value)
-    {
-        this.Row = row;
-        this.Col = col;
-        this.Value = value;
-    }
-
-    public int Row { get; set; }
-    public int Col { get; set; }
-    public int Value { get; set; }
-}
 class Program
 {
     static int rows;
@@ -23,61 +10,79 @@ class Program
     static int greatestArea;
     static int currentArea;
 
-    static int[][] matrix;
+    static int[,] matrix;
     static void Main(string[] args)
     {
         var token = Console.ReadLine().Split().Select(int.Parse).ToArray();
         rows = token[0];
         cols = token[1];
 
-        var matrix = new int[rows][];
+        matrix = new int[rows, cols];
         used = new bool[rows, cols];
-        for (int i = 0; i < rows; i++)
-        {
-            matrix[i] = Console.ReadLine()
-                .Split()
-                .Select(int.Parse)
-                .ToArray();
-        }
+
+        FillMatrix();
 
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols; col++)
             {
+                int targetValue = matrix[row, col];
                 if (!used[row, col])
                 {
                     currentArea = 0;
-                    int value = matrix[row][col];
 
-                    Stack<State> stack = new Stack<State>();
+                    Stack<int> rowStack = new Stack<int>();
+                    Stack<int> colStack = new Stack<int>();
 
-                    stack.Push(new State(row, col, value));
+                    rowStack.Push(row);
+                    colStack.Push(col);
 
-                    while (stack.Count > 0)
+                    while (rowStack.Count > 0)
                     {
-                        var state = stack.Pop();
+                        int currentRow = rowStack.Pop();
+                        int currentCol = colStack.Pop();
 
-                        if (state.Row < 0 || state.Row >= rows || state.Col < 0 || state.Col >= cols)
+                        if (currentRow < 0 || currentRow >= rows || currentCol < 0 || currentCol >= cols)
                         {
                             continue;
                         }
-                        if (matrix[state.Row][state.Col] != state.Value)
+                        if (matrix[currentRow, currentCol] != targetValue)
                         {
                             continue;
                         }
-                        if (used[state.Row, state.Col])
+                        if (used[currentRow, currentCol])
                         {
                             continue;
                         }
 
-                        used[state.Row, state.Col] = true;
+                        used[currentRow, currentCol] = true;
                         currentArea++;
-                        greatestArea = Math.Max(greatestArea, currentArea);
 
-                        stack.Push(new State(state.Row + 1, state.Col, state.Value));
-                        stack.Push(new State(state.Row - 1, state.Col, state.Value));
-                        stack.Push(new State(state.Row, state.Col - 1, state.Value));
-                        stack.Push(new State(state.Row, state.Col + 1, state.Value));
+                        if (greatestArea < currentArea)
+                        {
+                            greatestArea = currentArea;
+                        }
+
+                        if (currentRow + 1 < rows)
+                        {
+                            rowStack.Push(currentRow + 1);
+                            colStack.Push(currentCol);
+                        }
+                        if (currentRow - 1 >= 0)
+                        {
+                            rowStack.Push(currentRow - 1);
+                            colStack.Push(currentCol);
+                        }
+                        if (currentCol - 1 >= 0)
+                        {
+                            rowStack.Push(currentRow);
+                            colStack.Push(currentCol - 1);
+                        }
+                        if (currentCol + 1 < cols)
+                        {
+                            rowStack.Push(currentRow);
+                            colStack.Push(currentCol + 1);
+                        }
                     }
                 }
             }
@@ -85,5 +90,20 @@ class Program
         }
 
         Console.WriteLine(greatestArea);
+    }
+
+    private static void FillMatrix()
+    {
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            string[] nums = Console.ReadLine().Split();
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i, j] = int.Parse(nums[j]);
+            }
+        }
     }
 }
