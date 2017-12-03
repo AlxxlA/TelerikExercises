@@ -33,8 +33,11 @@ namespace _3.SneakyTheSnake
             for (int i = 0; i < directions.Length; i++)
             {
                 string direction = directions[i];
+                if (move % 5 == 0)
+                {
+                    snakeLength--;
+                }
 
-                
                 if (snakeLength <= 0)
                 {
                     Console.WriteLine("Sneaky is going to starve at [{0},{1}]", currentRow, currentCol);
@@ -59,7 +62,7 @@ namespace _3.SneakyTheSnake
                     currentCol--;
                     if (currentCol < 0)
                     {
-                        currentCol = cols - 1;
+                        currentCol = (cols + currentCol) % cols;
                     }
                 }
                 else if (direction == "d") // right
@@ -67,7 +70,7 @@ namespace _3.SneakyTheSnake
                     currentCol++;
                     if (currentCol >= cols)
                     {
-                        currentCol = 0;
+                        currentCol = currentCol % cols;
                     }
                 }
                 else
@@ -86,10 +89,6 @@ namespace _3.SneakyTheSnake
                 {
                     snakeLength++;
                     matrix[currentRow, currentCol] = '-';
-                }
-                if (move % 5 == 0)
-                {
-                    snakeLength--;
                 }
 
                 move++;
